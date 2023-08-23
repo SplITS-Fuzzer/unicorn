@@ -2,6 +2,7 @@
 #include "cov.h"
 
 unsigned long cov_prev_loc = 0;
+unsigned long cov_prev_prev_loc = 0;
 unsigned char *cov_area_ptr = NULL;
 unsigned long cov_area_size = 0;
 
@@ -30,6 +31,7 @@ void fuzzer_init_cov(uc_engine *uc, void *bitmap_region, uint32_t bitmap_size) {
     }
 
     cov_area_size = bitmap_size;
+    cov_prev_prev_loc = 0;
     cov_prev_loc = 0;
 }
 
@@ -38,5 +40,6 @@ void fuzzer_reset_cov(uc_engine *uc, int do_clear) {
         memset(cov_area_ptr, 0, cov_area_size);
     }
 
+    cov_prev_prev_loc = 0;
     cov_prev_loc = 0;
 }

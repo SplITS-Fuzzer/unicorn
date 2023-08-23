@@ -10,6 +10,7 @@ symbols = (
     'fuzzer_init_cov',
     'fuzzer_reset_cov',
     'cov_prev_loc',
+    'cov_prev_prev_loc',
     'cov_area_ptr',
     'cov_area_size',
     'fw_log',

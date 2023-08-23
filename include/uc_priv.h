@@ -161,6 +161,9 @@ struct uc_struct {
     reg_write_t reg_write;
     reg_reset_t reg_reset;
 
+    unsigned long* fuzzer_prev_loc;
+    unsigned long* fuzzer_prev_prev_loc;
+
     uc_args_uc_ptr_uint_t fuzzer_init_cov;
     uc_args_uc_int_t fuzzer_reset_cov;
 

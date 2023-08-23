@@ -168,7 +168,7 @@ Inserts AFL instrumentation code into the current TB.
 */
 static void afl_add_instrumentation(TCGContext *ctx, target_ulong cur_loc) {
     TCGv_i32 index, count, new_prev_loc;
-    TCGv_ptr prev_loc_ptr, count_ptr;
+    TCGv_ptr prev_loc_ptr, count_ptr, prev_prev_loc_ptr;
 
     if (unlikely(cov_area_ptr == NULL))
         return;
@@ -183,6 +183,10 @@ static void afl_add_instrumentation(TCGContext *ctx, target_ulong cur_loc) {
     prev_loc_ptr = tcg_const_ptr(ctx, &cov_prev_loc);
     index = tcg_temp_new_i32(ctx);
     tcg_gen_ld_i32(ctx, index, prev_loc_ptr, 0);
+    /* prev_prev_loc = prev_loc */
+    prev_prev_loc_ptr = tcg_const_ptr(ctx, &cov_prev_prev_loc);
+    tcg_gen_st_i32(ctx, index, prev_prev_loc_ptr, 0);
+    /* end prev_prev_loc */
     tcg_gen_xori_i32(ctx, index, index, cur_loc);
 
     /* cov_area_ptr[index]++ */

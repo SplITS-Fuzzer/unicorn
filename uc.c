@@ -1632,3 +1632,16 @@ uc_err uc_fuzzer_reset_cov(uc_engine *uc, int do_clear)
     uc->fuzzer_reset_cov(uc, do_clear);
     return UC_ERR_OK;
 }
+
+UNICORN_EXPORT
+unsigned long uc_get_prev_loc(uc_engine *uc)
+{
+    return *(uc->fuzzer_prev_prev_loc);
+}
+
+UNICORN_EXPORT
+uc_err uc_set_prev_loc(uc_engine *uc, unsigned long prev_cov)
+{
+    *(uc->fuzzer_prev_loc) = prev_cov;
+    return UC_ERR_OK;
+}
