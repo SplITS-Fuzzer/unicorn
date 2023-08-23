@@ -812,6 +812,8 @@ uc_err uc_fuzzer_init_cov(uc_engine *uc, void *bitmap_region, uint32_t bitmap_si
 UNICORN_EXPORT
 uc_err uc_fuzzer_reset_cov(uc_engine *uc, int do_clear);
 
+UNICORN_EXPORT
+uc_err uc_fuzzer_cursor(uc_engine *uc, long* cursor_ptr);
 
 UNICORN_EXPORT
 uc_err uc_set_prev_loc(uc_engine *uc, unsigned long prev_cov);

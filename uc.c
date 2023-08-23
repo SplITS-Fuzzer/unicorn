@@ -1645,3 +1645,10 @@ uc_err uc_set_prev_loc(uc_engine *uc, unsigned long prev_cov)
     *(uc->fuzzer_prev_loc) = prev_cov;
     return UC_ERR_OK;
 }
+
+UNICORN_EXPORT
+uc_err uc_fuzzer_cursor(uc_engine *uc, long* cursor_ptr)
+{
+    uc->fuzzer_cursor(uc, cursor_ptr);
+    return UC_ERR_OK;
+}

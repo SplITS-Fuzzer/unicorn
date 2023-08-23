@@ -64,6 +64,7 @@ typedef void (*uc_args_uc_u64_t)(struct uc_struct *, uint64_t addr);
 
 typedef void (*uc_args_uc_ptr_uint_t)(struct uc_struct*, void *, uint32_t);
 typedef void (*uc_args_uc_int_t)(struct uc_struct*, int);
+typedef void (*uc_args_uc_ptr_t)(struct uc_struct*, void *);
 
 typedef MemoryRegion* (*uc_args_uc_ram_size_t)(struct uc_struct*,  hwaddr begin, size_t size, uint32_t perms);
 
@@ -166,6 +167,7 @@ struct uc_struct {
 
     uc_args_uc_ptr_uint_t fuzzer_init_cov;
     uc_args_uc_int_t fuzzer_reset_cov;
+    uc_args_uc_ptr_t fuzzer_cursor;
 
     uc_set_mem_t set_mem;
     uc_write_mem_t write_mem;

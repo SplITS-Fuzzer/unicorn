@@ -37,6 +37,8 @@
 
 #include "exec/gen-icount.h"
 
+#include "fuzzer/cov.h"
+
 #define ENABLE_ARCH_4T    arm_dc_feature(s, ARM_FEATURE_V4T)
 #define ENABLE_ARCH_5     arm_dc_feature(s, ARM_FEATURE_V5)
 /* currently all emulated v5 cores are also v5TE, so don't bother */
@@ -9918,6 +9920,7 @@ static int disas_thumb2_insn(CPUARMState *env, DisasContext *s, uint16_t insn_hw
 
                 if (insn & (1 << 14)) {
                     /* Branch and link.  */
+                    gen_helper_afl_cmplog_rtn(tcg_ctx,tcg_ctx->cpu_env);
                     tcg_gen_movi_i32(tcg_ctx, tcg_ctx->cpu_R[14], s->pc | 1);
                 }
 

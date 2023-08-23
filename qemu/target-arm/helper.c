@@ -9,6 +9,7 @@
 #include "qemu/crc32c.h"
 #include "exec/cpu_ldst.h"
 #include "arm_ldst.h"
+#include "cmplog.h"
 
 #ifndef CONFIG_USER_ONLY
 static inline int get_phys_addr(CPUARMState *env, target_ulong address,
@@ -5735,4 +5736,128 @@ uint32_t HELPER(crc32c)(uint32_t acc, uint32_t val, uint32_t bytes)
 
     /* Linux crc32c converts the output to one's complement.  */
     return crc32c(acc, buf, bytes) ^ 0xffffffff;
+}
+
+static bool is_printable(uint8_t c){
+  if(c > 126)
+    return false;
+  if(c > 31)
+    return true;
+  if(c == 9 || c == 10 || c == 13)
+    return true;
+  return false;
+}
+
+extern unsigned char *cov_area_ptr;
+extern unsigned long cov_area_size;
+extern struct cmp_map *__afl_cmp_map;
+extern unsigned long* fuzz_cursor;
+
+void HELPER(afl_cmplog_rtn)(CPUArchState *env)
+{
+  target_ulong arg1 = env->regs[0];
+  target_ulong arg2 = env->regs[1];
+
+  if(arg1 == arg2 || !arg1 || !arg2)
+    return;
+  if (!memory_mapping(env->uc, arg1))
+    return;
+  if (!memory_mapping(env->uc, arg2))
+    return;
+  target_ulong low = arg1;
+  target_ulong high = arg2;
+
+  if(arg2 < arg1){
+    low = arg2;
+    high = arg1;
+  }
+
+  if(low >= 0x1f000000)
+    return;
+
+  if(high < 0x1f000000 || high >= 0x40000000)
+    return;
+  MemoryRegion* m1 = memory_mapping(env->uc, low);
+  MemoryRegion* m2 = memory_mapping(env->uc, high);
+  bool m1ro = ((~(m1->perms)) & UC_PROT_WRITE) && (m1->perms & UC_PROT_READ) && (m1->perms & UC_PROT_EXEC); // Include exec, Fuzzware clears write bit here when not yet written to
+  bool m2rw = (m2->perms & UC_PROT_WRITE) && (m2->perms & UC_PROT_READ);
+  if(!m1ro)
+    return;
+  if(!m2rw)
+    return;
+
+  const int readSize = 30;
+  uint8_t highbytes[readSize];
+  uint8_t lowbytes[readSize];
+  if(uc_mem_read(env->uc, high, highbytes, readSize) != UC_ERR_OK)
+    return;
+  if(uc_mem_read(env->uc, low, lowbytes, readSize) != UC_ERR_OK)
+    return;
+
+  int highlen, lowlen;
+  bool validComparison = false;
+  for(highlen = 0; highlen < readSize; highlen++){
+    if(highbytes[highlen] == '\0'){
+      validComparison = true;
+      break;
+    }
+  }
+  if(!validComparison)
+    return;
+  validComparison = false;
+  for(lowlen = 0; lowlen < readSize; lowlen++){
+    if(lowbytes[lowlen] == '\0'){
+      validComparison = true;
+      break;
+    }
+    if(!is_printable(lowbytes[lowlen])){
+      return;
+    }
+  }
+  if(!validComparison)
+    return;
+
+  if(lowlen < 2 || highlen < 2)
+    return;
+
+  if(!cov_area_ptr)
+    return;
+
+  const int rom_extra = 4; // Extra length applied for space for substrings
+
+  uintptr_t k = (uintptr_t)env->regs[15];
+  uint16_t min_len = lowlen + rom_extra;
+  if(highlen < min_len)
+    min_len = highlen;
+  uint16_t string12 = lowbytes[0];
+  string12 += (lowbytes[1]) << 8;
+  uint16_t string34 = lowbytes[2];;
+  string34 += (lowbytes[3]) << 8;
+  register uintptr_t k_loc_extra = ((k + (string12 ^ string34)) % (cov_area_size)) ^ min_len;
+  if(cov_area_ptr[k_loc_extra] < 255)
+    cov_area_ptr[k_loc_extra]++;
+
+  if (!__afl_cmp_map)
+    return;
+
+  k = k_loc_extra ^ min_len;
+  k = (k >> 4) ^ (k << 8);
+  k &= CMP_MAP_W - 1;
+
+  __afl_cmp_map->headers[k].type = CMP_TYPE_RTN;
+
+  uint32_t hits = __afl_cmp_map->headers[k].hits;
+  __afl_cmp_map->headers[k].hits = hits + 1;
+
+  __afl_cmp_map->headers[k].shape = 29;
+
+  hits &= CMP_MAP_RTN_H - 1;
+  __builtin_memcpy(((struct cmpfn_operands *)__afl_cmp_map->log[k])[hits].v0, highbytes, readSize);
+  __builtin_memcpy(((struct cmpfn_operands *)__afl_cmp_map->log[k])[hits].v1, lowbytes, readSize);
+  if(fuzz_cursor != NULL){
+    ((struct cmpfn_operands *)__afl_cmp_map->log[k])[hits].offset = *fuzz_cursor;
+  } else {
+    ((struct cmpfn_operands *)__afl_cmp_map->log[k])[hits].offset = -1;
+  }
+
 }

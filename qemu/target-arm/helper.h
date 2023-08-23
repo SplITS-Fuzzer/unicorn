@@ -536,6 +536,8 @@ DEF_HELPER_2(dc_zva, void, env, i64)
 DEF_HELPER_FLAGS_2(neon_pmull_64_lo, TCG_CALL_NO_RWG_SE, i64, i64, i64)
 DEF_HELPER_FLAGS_2(neon_pmull_64_hi, TCG_CALL_NO_RWG_SE, i64, i64, i64)
 
+DEF_HELPER_FLAGS_1(afl_cmplog_rtn, TCG_CALL_NO_WG, void, env)
+
 #ifdef TARGET_ARM
 #define helper_clz helper_clz_arm
 #define gen_helper_clz gen_helper_clz_arm

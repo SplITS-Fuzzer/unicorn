@@ -92,6 +92,7 @@ static inline void uc_common_init(struct uc_struct* uc)
     uc->fuzzer_prev_prev_loc = &cov_prev_prev_loc;
     uc->fuzzer_init_cov = fuzzer_init_cov;
     uc->fuzzer_reset_cov = fuzzer_reset_cov;
+    uc->fuzzer_cursor = fuzzer_cursor;
 
     uc->target_page_size = TARGET_PAGE_SIZE;
     uc->target_page_align = TARGET_PAGE_SIZE - 1;
