@@ -4,8 +4,12 @@
 #define fuzzer_init_cov fuzzer_init_cov_mips64
 #define fuzzer_reset_cov fuzzer_reset_cov_mips64
 #define cov_prev_loc cov_prev_loc_mips64
+#define cov_prev_prev_loc cov_prev_prev_loc_mips64
 #define cov_area_ptr cov_area_ptr_mips64
 #define cov_area_size cov_area_size_mips64
+#define __afl_cmp_map __afl_cmp_map_mips64
+#define fuzzer_cursor fuzzer_cursor_mips64
+#define fuzz_cursor fuzz_cursor_mips64
 #define fw_log fw_log_mips64
 #define arm_release arm_release_mips64
 #define aarch64_tb_set_jmp_target aarch64_tb_set_jmp_target_mips64
@@ -641,6 +645,7 @@
 #define gen_exception_internal_insn gen_exception_internal_insn_mips64
 #define gen_exception_return gen_exception_return_mips64
 #define gen_goto_tb gen_goto_tb_mips64
+#define gen_helper_afl_cmplog_rtn gen_helper_afl_cmplog_rtn_mips64
 #define gen_helper_access_check_cp_reg gen_helper_access_check_cp_reg_mips64
 #define gen_helper_add_saturate gen_helper_add_saturate_mips64
 #define gen_helper_add_setq gen_helper_add_setq_mips64
@@ -1351,6 +1356,7 @@
 #define have_bmi1 have_bmi1_mips64
 #define have_bmi2 have_bmi2_mips64
 #define hcr_write hcr_write_mips64
+#define helper_afl_cmplog_rtn helper_afl_cmplog_rtn_mips64
 #define helper_access_check_cp_reg helper_access_check_cp_reg_mips64
 #define helper_add_saturate helper_add_saturate_mips64
 #define helper_add_setq helper_add_setq_mips64

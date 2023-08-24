@@ -4,8 +4,12 @@
 #define fuzzer_init_cov fuzzer_init_cov_m68k
 #define fuzzer_reset_cov fuzzer_reset_cov_m68k
 #define cov_prev_loc cov_prev_loc_m68k
+#define cov_prev_prev_loc cov_prev_prev_loc_m68k
 #define cov_area_ptr cov_area_ptr_m68k
 #define cov_area_size cov_area_size_m68k
+#define __afl_cmp_map __afl_cmp_map_m68k
+#define fuzzer_cursor fuzzer_cursor_m68k
+#define fuzz_cursor fuzz_cursor_m68k
 #define fw_log fw_log_m68k
 #define arm_release arm_release_m68k
 #define aarch64_tb_set_jmp_target aarch64_tb_set_jmp_target_m68k
@@ -641,6 +645,7 @@
 #define gen_exception_internal_insn gen_exception_internal_insn_m68k
 #define gen_exception_return gen_exception_return_m68k
 #define gen_goto_tb gen_goto_tb_m68k
+#define gen_helper_afl_cmplog_rtn gen_helper_afl_cmplog_rtn_m68k
 #define gen_helper_access_check_cp_reg gen_helper_access_check_cp_reg_m68k
 #define gen_helper_add_saturate gen_helper_add_saturate_m68k
 #define gen_helper_add_setq gen_helper_add_setq_m68k
@@ -1351,6 +1356,7 @@
 #define have_bmi1 have_bmi1_m68k
 #define have_bmi2 have_bmi2_m68k
 #define hcr_write hcr_write_m68k
+#define helper_afl_cmplog_rtn helper_afl_cmplog_rtn_m68k
 #define helper_access_check_cp_reg helper_access_check_cp_reg_m68k
 #define helper_add_saturate helper_add_saturate_m68k
 #define helper_add_setq helper_add_setq_m68k

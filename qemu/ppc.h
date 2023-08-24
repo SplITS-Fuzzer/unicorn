@@ -4,8 +4,12 @@
 #define fuzzer_init_cov fuzzer_init_cov_ppc
 #define fuzzer_reset_cov fuzzer_reset_cov_ppc
 #define cov_prev_loc cov_prev_loc_ppc
+#define cov_prev_prev_loc cov_prev_prev_loc_ppc
 #define cov_area_ptr cov_area_ptr_ppc
 #define cov_area_size cov_area_size_ppc
+#define __afl_cmp_map __afl_cmp_map_ppc
+#define fuzzer_cursor fuzzer_cursor_ppc
+#define fuzz_cursor fuzz_cursor_ppc
 #define fw_log fw_log_ppc
 #define arm_release arm_release_ppc
 #define aarch64_tb_set_jmp_target aarch64_tb_set_jmp_target_ppc
@@ -641,6 +645,7 @@
 #define gen_exception_internal_insn gen_exception_internal_insn_ppc
 #define gen_exception_return gen_exception_return_ppc
 #define gen_goto_tb gen_goto_tb_ppc
+#define gen_helper_afl_cmplog_rtn gen_helper_afl_cmplog_rtn_ppc
 #define gen_helper_access_check_cp_reg gen_helper_access_check_cp_reg_ppc
 #define gen_helper_add_saturate gen_helper_add_saturate_ppc
 #define gen_helper_add_setq gen_helper_add_setq_ppc
@@ -1351,6 +1356,7 @@
 #define have_bmi1 have_bmi1_ppc
 #define have_bmi2 have_bmi2_ppc
 #define hcr_write hcr_write_ppc
+#define helper_afl_cmplog_rtn helper_afl_cmplog_rtn_ppc
 #define helper_access_check_cp_reg helper_access_check_cp_reg_ppc
 #define helper_add_saturate helper_add_saturate_ppc
 #define helper_add_setq helper_add_setq_ppc

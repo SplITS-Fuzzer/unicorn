@@ -4,8 +4,12 @@
 #define fuzzer_init_cov fuzzer_init_cov_aarch64eb
 #define fuzzer_reset_cov fuzzer_reset_cov_aarch64eb
 #define cov_prev_loc cov_prev_loc_aarch64eb
+#define cov_prev_prev_loc cov_prev_prev_loc_aarch64eb
 #define cov_area_ptr cov_area_ptr_aarch64eb
 #define cov_area_size cov_area_size_aarch64eb
+#define __afl_cmp_map __afl_cmp_map_aarch64eb
+#define fuzzer_cursor fuzzer_cursor_aarch64eb
+#define fuzz_cursor fuzz_cursor_aarch64eb
 #define fw_log fw_log_aarch64eb
 #define arm_release arm_release_aarch64eb
 #define aarch64_tb_set_jmp_target aarch64_tb_set_jmp_target_aarch64eb
@@ -641,6 +645,7 @@
 #define gen_exception_internal_insn gen_exception_internal_insn_aarch64eb
 #define gen_exception_return gen_exception_return_aarch64eb
 #define gen_goto_tb gen_goto_tb_aarch64eb
+#define gen_helper_afl_cmplog_rtn gen_helper_afl_cmplog_rtn_aarch64eb
 #define gen_helper_access_check_cp_reg gen_helper_access_check_cp_reg_aarch64eb
 #define gen_helper_add_saturate gen_helper_add_saturate_aarch64eb
 #define gen_helper_add_setq gen_helper_add_setq_aarch64eb
@@ -1351,6 +1356,7 @@
 #define have_bmi1 have_bmi1_aarch64eb
 #define have_bmi2 have_bmi2_aarch64eb
 #define hcr_write hcr_write_aarch64eb
+#define helper_afl_cmplog_rtn helper_afl_cmplog_rtn_aarch64eb
 #define helper_access_check_cp_reg helper_access_check_cp_reg_aarch64eb
 #define helper_add_saturate helper_add_saturate_aarch64eb
 #define helper_add_setq helper_add_setq_aarch64eb

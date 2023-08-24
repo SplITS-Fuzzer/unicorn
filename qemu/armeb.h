@@ -4,8 +4,12 @@
 #define fuzzer_init_cov fuzzer_init_cov_armeb
 #define fuzzer_reset_cov fuzzer_reset_cov_armeb
 #define cov_prev_loc cov_prev_loc_armeb
+#define cov_prev_prev_loc cov_prev_prev_loc_armeb
 #define cov_area_ptr cov_area_ptr_armeb
 #define cov_area_size cov_area_size_armeb
+#define __afl_cmp_map __afl_cmp_map_armeb
+#define fuzzer_cursor fuzzer_cursor_armeb
+#define fuzz_cursor fuzz_cursor_armeb
 #define fw_log fw_log_armeb
 #define arm_release arm_release_armeb
 #define aarch64_tb_set_jmp_target aarch64_tb_set_jmp_target_armeb
@@ -641,6 +645,7 @@
 #define gen_exception_internal_insn gen_exception_internal_insn_armeb
 #define gen_exception_return gen_exception_return_armeb
 #define gen_goto_tb gen_goto_tb_armeb
+#define gen_helper_afl_cmplog_rtn gen_helper_afl_cmplog_rtn_armeb
 #define gen_helper_access_check_cp_reg gen_helper_access_check_cp_reg_armeb
 #define gen_helper_add_saturate gen_helper_add_saturate_armeb
 #define gen_helper_add_setq gen_helper_add_setq_armeb
@@ -1351,6 +1356,7 @@
 #define have_bmi1 have_bmi1_armeb
 #define have_bmi2 have_bmi2_armeb
 #define hcr_write hcr_write_armeb
+#define helper_afl_cmplog_rtn helper_afl_cmplog_rtn_armeb
 #define helper_access_check_cp_reg helper_access_check_cp_reg_armeb
 #define helper_add_saturate helper_add_saturate_armeb
 #define helper_add_setq helper_add_setq_armeb
